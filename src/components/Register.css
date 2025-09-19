@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+}
+
+.register-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.register-card h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #1f2937;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-wrapper .input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Icône user à gauche */
+.input-wrapper.has-icon-left .input {
+  padding-left: 2.5rem;
+}
+
+.input-wrapper.has-icon-left .input-icon {
+  position: absolute;
+  top: 33%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #3a556f;
+  pointer-events: none;
+}
+
+/* Icône enveloppe pour email */
+.input-wrapper.has-icon-email .input {
+  padding-left: 2.5rem;
+}
+
+.input-wrapper.has-icon-email .email-icon {
+  position: absolute;
+  top: 37%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #3a5167;
+  pointer-events: none;
+}
+
+/* Icône œil pour mot de passe */
+.input-wrapper.has-icon-right .input {
+  padding-right: 2.5rem;
+}
+
+.input-wrapper.has-icon-right .eye-icon {
+  position: absolute;
+  top: 43%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #41586f;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 1rem;
+}
+
+.btn:hover {
+  background: #1565c0;
+}
+
+.login-link {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.login-link .link {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.login-link .link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.2rem;
+    max-width: 100%;
+  }
+
+  .register-card h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Erreurs spécifiques */
+.error {
+  color: #b00020;
+  background: #fdecea;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.error-username,
+.error-email,
+.error-password {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+} 
+
+.strength-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.strength-label {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  color: #6b7280;
+  text-align: left;
+}
+
