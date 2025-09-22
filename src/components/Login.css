@@ -1,0 +1,202 @@
+/* Reset box-sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* Carte blanche centrée */
+.login-card {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+/* Titre du formulaire */
+.login-card h2 {
+  margin-bottom: 1.4rem;
+  font-size: 1.6rem;
+  color: #1f2937;
+}
+
+/* Wrapper de chaque input */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Style de base des inputs */
+.input-wrapper .input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Icône générale à gauche */
+.input-wrapper.has-icon-left .input {
+  padding-left: 2.5rem;
+}
+
+.input-wrapper.has-icon-left .input-icon {
+  position: absolute;
+  top: 35%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #475868;
+  pointer-events: none;
+}
+
+/* Icône enveloppe pour email */
+.input-wrapper.has-icon-email .input {
+  padding-left: 2.5rem;
+}
+
+.input-wrapper.has-icon-email .email-icon {
+  position: absolute;
+  top: 36%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #4b5f72;
+  pointer-events: none;
+}
+
+/* Icône œil pour mot de passe */
+.input-wrapper.has-icon-right .input {
+  padding-right: 2.5rem;
+}
+
+.input-wrapper.has-icon-right .eye-icon {
+  position: absolute;
+  top: 49%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #161b20;
+}
+
+/* Options (checkbox + lien) */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 0.rem;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+.link {
+  font-size: 0.8rem;
+  color: #1976d2;
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Bouton de connexion */
+.btn {
+  width: 90%;
+  padding: 0.75rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 0.5rem;
+}
+.btn:hover {
+  background: #1565c0;
+}
+
+/* Lien d’inscription */
+.register {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* … tes styles existants … */
+
+/* Message d’erreur général */
+.error {
+  color: #b00020;
+  background: #fdecea;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* Erreur spécifique au champ username */
+.error-username {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+/* Styles de base déjà présents… */
+
+/* Message d’erreur général */
+.error {
+  color: #b00020;
+  background: #fdecea;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* Erreur spécifique au champ username */
+.error-username {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.error-email {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+/* Erreur spécifique au mot de passe */
+.error-password {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: url('/colombe.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: sans-serif;
+}

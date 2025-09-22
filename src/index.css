@@ -1,0 +1,38 @@
+/* 🔁 Reset de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 🧱 Structure de la page */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff;
+}
+
+/* 🖥️ Centrage du contenu principal */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🧩 Style global des formulaires */
+input, button {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* 🧼 Nettoyage des liens */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 🧾 Texte lisible */
+h1, h2, h3, p {
+  color: #333;
+}
