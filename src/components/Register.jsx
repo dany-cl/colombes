@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import './Register.css';
+import { toast } from 'react-toastify';
+import { FaCheckCircle } from 'react-icons/fa';
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [isRegistered, setIsRegistered] = useState(false);
   const [username, setUsername]           = useState('');
   const [contact, setContact]             = useState('');
   const [password, setPassword]           = useState('');
@@ -80,7 +84,9 @@ export default function Register() {
     setConfirmError('');
 
     // Simulation d’envoi
-    console.log("Inscription réussie !", { username, contact, password });
+    toast.success("Inscription réussie !");
+setIsRegistered(true);  
+
   };
   const getPasswordStrength = password => {
   let score = 0;
@@ -95,101 +101,113 @@ export default function Register() {
 };
 
   return (
-    <div className="register-card">
-      <h2>S'inscrire</h2>
-      {serverError && <p className="error">{serverError}</p>}
-
-      <form onSubmit={handleSubmit}>
-        {/* Nom d’utilisateur */}
-        <div className="input-wrapper has-icon-left">
-          <FaUser className="input-icon" />
-          <input
-            className="input"
-            type="text"
-            placeholder="Nom d'utilisateur"
-            value={username}
-            onChange={e => {
-              setUsername(e.target.value);
-              if (usernameError) setUsernameError('');
-            }}
-          />
-        </div>
-        {usernameError && <p className="error-username">{usernameError}</p>}
-
-        {/* Email ou téléphone */}
-        <div className="input-wrapper has-icon-email">
-          <FaEnvelope className="input-icon email-icon" />
-          <input
-            className="input"
-            type="text"
-            placeholder="Adresse email ou N° de téléphone"
-            value={contact}
-            onChange={e => {
-              setContact(e.target.value);
-              if (contactError) setContactError('');
-            }}
-          />
-        </div>
-        {contactError && <p className="error-email">{contactError}</p>}
-
-        {/* Mot de passe */}
-        <div className="input-wrapper has-icon-left has-icon-right">
-          <FaLock className="input-icon" />
-          <input
-            className="input"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Mot de passe"
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-              if (passwordError) setPasswordError('');
-            }}
-          />
-          <span
-            className="eye-icon"
-            onClick={() => setShowPassword(v => !v)}
-          >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </span>
-        </div>
-        {passwordError && <p className="error-password">{passwordError}</p>}
-
-        {/* Barre de force */}
-        {password && (
-          <div className="strength-bar">
-            <div
-              className="strength-fill"
-              style={{
-                width: getPasswordStrength(password).width,
-                backgroundColor: getPasswordStrength(password).color
+  <div className="register-card">
+    {isRegistered ? (
+      // ← affichage après inscription réussie
+      <div className="success-message">
+        <h2>Merci de vous être inscrit !</h2>
+        <p>Votre compte a bien été créé.</p>
+        <Link to="/" className="btn-link">
+          ← Revenir à la page de connexion
+        </Link>
+      </div>
+    ) : (
+      // ← affichage du formulaire tant que !isRegistered
+      <>
+        <h2>S'inscrire</h2>
+        {serverError && <p className="error">{serverError}</p>}
+        <form onSubmit={handleSubmit}>
+          {/* Nom d’utilisateur */}
+          <div className="input-wrapper has-icon-left">
+            <FaUser className="input-icon" />
+            <input
+              className="input"
+              type="text"
+              placeholder="Nom d'utilisateur"
+              value={username}
+              onChange={e => {
+                setUsername(e.target.value)
+                if (usernameError) setUsernameError('')
               }}
-            ></div>
-            <p className="strength-label">{getPasswordStrength(password).label}</p>
+            />
           </div>
-        )}
+          {usernameError && <p className="error-username">{usernameError}</p>}
 
-        {/* Confirmation du mot de passe */}
-        <div className="input-wrapper has-icon-left">
-          <FaLock className="input-icon" />
-          <input
-            className="input"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Confirmer le mot de passe"
-            value={confirmPassword}
-            onChange={e => {
-              setConfirmPassword(e.target.value);
-              if (confirmError) setConfirmError('');
-            }}
-          />
-        </div>
-        {confirmError && <p className="error-password">{confirmError}</p>}
+          {/* Email ou téléphone */}
+          <div className="input-wrapper has-icon-email">
+            <FaEnvelope className="input-icon email-icon" />
+            <input
+              className="input"
+              type="text"
+              placeholder="Adresse email ou N° de téléphone"
+              value={contact}
+              onChange={e => {
+                setContact(e.target.value)
+                if (contactError) setContactError('')
+              }}
+            />
+          </div>
+          {contactError && <p className="error-email">{contactError}</p>}
 
-        <button className="btn" type="submit">S'inscrire</button>
+          {/* Mot de passe */}
+          <div className="input-wrapper has-icon-left has-icon-right">
+            <FaLock className="input-icon" />
+            <input
+              className="input"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Mot de passe"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value)
+                if (passwordError) setPasswordError('')
+              }}
+            />
+            <span className="eye-icon" onClick={() => setShowPassword(v => !v)}>
+              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </span>
+          </div>
+          {passwordError && <p className="error-password">{passwordError}</p>}
 
-        <p className="login-link">
-          Déjà un compte ? <Link to="/">Se connecter</Link>
-        </p>
-      </form>
-    </div>
-  );
+          {/* Barre de force */}
+          {password && (
+            <div className="strength-bar">
+              <div
+                className="strength-fill"
+                style={{
+                  width: getPasswordStrength(password).width,
+                  backgroundColor: getPasswordStrength(password).color
+                }}
+              />
+              <p className="strength-label">
+                {getPasswordStrength(password).label}
+              </p>
+            </div>
+          )}
+
+          {/* Confirmation du mot de passe */}
+          <div className="input-wrapper has-icon-left">
+            <FaLock className="input-icon" />
+            <input
+              className="input"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Confirmer le mot de passe"
+              value={confirmPassword}
+              onChange={e => {
+                setConfirmPassword(e.target.value)
+                if (confirmError) setConfirmError('')
+              }}
+            />
+          </div>
+          {confirmError && <p className="error-password">{confirmError}</p>}
+
+          <button className="btn" type="submit">S'inscrire</button>
+
+          <p className="login-link">
+            Déjà un compte ? <Link to="/">Se connecter</Link>
+          </p>
+        </form>
+      </>
+    )}
+  </div>
+);
 }

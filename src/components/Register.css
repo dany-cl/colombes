@@ -163,3 +163,55 @@
   text-align: left;
 }
 
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #e6ffed;
+  border: 2px solid #28a745;
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: #28a745;
+  margin-bottom: 1rem;
+}
+
+.btn-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background-color: #28a745;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-link:hover {
+  background-color: #218838;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  .input-icon {
+    margin-bottom: 0.5rem;
+  }
+}
