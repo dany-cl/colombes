@@ -5,7 +5,16 @@
 </head>
 <body>
     <h1>Bienvenue sur la page d'accueil !</h1>
-    <p>Vous êtes connecté : {{ request.user.username }}</p>
-    <a href="{% url 'logout' %}">Se déconnecter</a>
+
+    <h2>Liste des élèves (depuis MySQL) :</h2>
+    <ul>
+        {% for eleve in eleves %}
+            <li>{{ eleve.nom }} {{ eleve.prenom }} - Classe : {{ eleve.classe }}</li>
+        {% empty %}
+            <li>Aucun élève trouvé.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/admin/">Accéder à l'administration Django</a>
 </body>
 </html>

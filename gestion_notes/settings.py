@@ -1,9 +1,12 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-secret-key'
+SECRET_KEY = 'ton_secret_key'
+
 DEBUG = True
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -13,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'school',  # notre app
+    'school',
 ]
 
 MIDDLEWARE = [
@@ -23,7 +26,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'gestion_notes.urls'
@@ -31,7 +33,7 @@ ROOT_URLCONF = 'gestion_notes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # <-- dossier global templates
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,35 +51,19 @@ WSGI_APPLICATION = 'gestion_notes.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'new',
+        'NAME': 'colombe',
         'USER': 'root',
         'PASSWORD': 'ashley2030',
         'HOST': 'localhost',
         'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
     }
 }
 
-
-}
-
-
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
+AUTH_PASSWORD_VALIDATORS = []
 
 LANGUAGE_CODE = 'fr-fr'
-TIME_ZONE = 'UTC'  # <-- pour éviter le bug ZoneInfo
-USE_I18N = True
-USE_TZ = True
+
+TIME_ZONE = 'UTC'
 
 STATIC_URL = '/static/'
-
-# Login
-LOGIN_URL = '/admin/login/'
-LOGIN_REDIRECT_URL = '/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
