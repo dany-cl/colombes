@@ -3,20 +3,23 @@
   display: flex;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f5f5;
+  background-color: #e9e3e3;
 }
 
 /* Zone centrale */
 .dashboard-main {
   flex: 1;
+  width: 100%;
+  height: 100vh;
   padding: 2rem;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 /* Bande rouge en haut */
 .dashboard-header {
-  background-color: #ff3d00;
-  color: white;
+  background-color: #544541;
+  color: rgb(230, 214, 214);
   padding: 1rem 2rem;
   font-size: 20px;
   font-weight: bold;
@@ -116,5 +119,237 @@
 
   .dashboard-header {
     text-align: center;
+  }
+}
+/* conteneurs principaux : occuper toute la fenêtre */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.dashboard-root {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* zone centrale : plein écran sans marges latérales */
+.dashboard-main {
+  flex: 1;
+  width: 100%;
+  height: 100vh;
+  padding: 1.5rem; /* réduit si tu veux moins d'espace intérieur */
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* tuiles : s'étendent horizontalement */
+.tiles {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+/* chaque tuile s'adapte et remplit l'espace disponible */
+.tile {
+  flex: 1 1 220px; /* grandit pour remplir l'espace, mais garde une taille minimale */
+  min-width: 180px;
+  max-width: none;
+}
+
+/* rangée de tableaux : s'étendre et utiliser l'espace */
+.tables-row {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* chaque carte de tableau prend 50% (ou 1fr si plus de 2) */
+.table-card {
+  flex: 1 1 0;
+  min-width: 280px;
+  max-width: none;
+}
+
+/* forcer les tableaux à remplir leur carte */
+.table-card table {
+  width: 100%;
+  table-layout: fixed; /* répartit l'espace entre colonnes */
+}
+
+/* si tu veux réduire les marges internes des cellules */
+.table-card th,
+.table-card td {
+  padding: 0.5rem;
+}
+
+/* responsive : empiler sur petit écran */
+@media (max-width: 768px) {
+  .tiles { flex-direction: column; }
+  .tables-row { flex-direction: column; }
+}
+
+.custom-section {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  margin-top: 1rem;
+}
+.custom-section h2 {
+  margin-bottom: 0.5rem;
+  font-size: 18px;
+}
+
+.logout-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logout-confirm-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  max-width: 320px;
+}
+
+.logout-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.logout-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-buttons button:first-child {
+  background: #ccc;
+}
+
+.logout-buttons button:last-child {
+  background: #ff4d4d;
+  color: white;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 1rem;
+}
+
+.details-table th,
+.details-table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+.details-table th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: #333;
+}
+
+.details-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* tableau */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.details-table th,
+.details-table td {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+.pagination button {
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+.pagination select {
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+}
+
+/* responsive : empiler colonnes sur petits écrans */
+@media (max-width: 720px) {
+  .details-table,
+  .details-table thead,
+  .details-table tbody,
+  .details-table th,
+  .details-table td,
+  .details-table tr {
+    display: block;
+  }
+
+  .details-table thead {
+    display: none;
+  }
+
+  .details-table tr {
+    margin-bottom: 0.75rem;
+    background: #fff;
+    border-radius: 6px;
+    padding: 0.5rem;
+    border: 1px solid #eee;
+  }
+
+  .details-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.45rem 0.6rem;
+    border: none;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .details-table td::before {
+    font-weight: 600;
+    margin-right: 0.6rem;
+    color: #333;
+  }
+
+  /* labels par défaut — tu peux les adapter selon la tuile */
+  .details-table td:nth-child(1)::before {
+    content: "Colonne 1";
+  }
+  .details-table td:nth-child(2)::before {
+    content: "Colonne 2";
   }
 }

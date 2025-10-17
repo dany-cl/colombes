@@ -1,0 +1,52 @@
+.students-page {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.student-form {
+  margin-bottom: 20px;
+}
+
+.student-form input {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.student-form button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.student-form button[type="button"] {
+  background-color: #888;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-table th,
+.students-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.students-table th {
+  background-color: #f2f2f2;
+}
+
+.students-table button {
+  margin-right: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
