@@ -4,91 +4,122 @@ import './StudentsPage.css';
 export default function StudentsPage() {
   const [students, setStudents] = useState([
     { id: 1, nom: "Ranaivo Ando", classe: "1ère" },
-    { id: 2, nom: "Rakoto Lova", classe: "2nde" },
-    { id: 3, nom: "Hery Solo", classe: "3ème" },
   ]);
-  const [form, setForm] = useState({ nom: "", classe: "" });
+
+  const [newNom, setNewNom] = useState("");
+  const [newClasse, setNewClasse] = useState("");
+
   const [editingId, setEditingId] = useState(null);
+  const [editNom, setEditNom] = useState("");
+  const [editClasse, setEditClasse] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.nom || !form.classe) return;
+  function handleAdd() {
+    if (!newNom.trim() || !newClasse.trim()) return;
+    const newEleve = {
+      id: Date.now(),
+      nom: newNom,
+      classe: newClasse,
+    };
+    setStudents(prev => [...prev, newEleve]);
+    setNewNom("");
+    setNewClasse("");
+  }
 
-    if (editingId !== null) {
-      setStudents(students.map(e =>
-        e.id === editingId ? { ...e, nom: form.nom, classe: form.classe } : e
-      ));
-      setEditingId(null);
-    } else {
-      setStudents([...students, { id: Date.now(), ...form }]);
-    }
-
-    setForm({ nom: "", classe: "" });
-  };
-
-  const handleEdit = (id) => {
+  function handleEdit(id) {
     const eleve = students.find(e => e.id === id);
-    if (eleve) {
-      setForm({ nom: eleve.nom, classe: eleve.classe });
-      setEditingId(id);
-    }
-  };
+    if (!eleve) return;
+    setEditingId(id);
+    setEditNom(eleve.nom);
+    setEditClasse(eleve.classe);
+  }
 
-  const handleDelete = (id) => {
+  function handleSaveEdit() {
+    setStudents(prev =>
+      prev.map(e =>
+        e.id === editingId ? { ...e, nom: editNom, classe: editClasse } : e
+      )
+    );
+    setEditingId(null);
+    setEditNom("");
+    setEditClasse("");
+  }
+
+  function handleCancelEdit() {
+    setEditingId(null);
+    setEditNom("");
+    setEditClasse("");
+  }
+
+  function handleDelete(id) {
     if (window.confirm("Supprimer cet élève ?")) {
-      setStudents(students.filter(e => e.id !== id));
+      setStudents(prev => prev.filter(e => e.id !== id));
       if (editingId === id) {
-        setForm({ nom: "", classe: "" });
         setEditingId(null);
+        setEditNom("");
+        setEditClasse("");
       }
     }
-  };
+  }
 
   return (
     <div className="students-page">
       <h2>Liste des élèves</h2>
 
-      <form onSubmit={handleSubmit} className="student-form">
+      <div className="add-form">
         <input
           type="text"
           placeholder="Nom de l'élève"
-          value={form.nom}
-          onChange={(e) => setForm({ ...form, nom: e.target.value })}
-          required
+          value={newNom}
+          onChange={(e) => setNewNom(e.target.value)}
         />
         <input
           type="text"
           placeholder="Classe"
-          value={form.classe}
-          onChange={(e) => setForm({ ...form, classe: e.target.value })}
-          required
+          value={newClasse}
+          onChange={(e) => setNewClasse(e.target.value)}
         />
-        <button type="submit">{editingId !== null ? "Modifier" : "Ajouter"}</button>
-        {editingId !== null && (
-          <button type="button" onClick={() => {
-            setForm({ nom: "", classe: "" });
-            setEditingId(null);
-          }}>Annuler</button>
-        )}
-      </form>
+        <button onClick={handleAdd}>Ajouter</button>
+      </div>
 
       <table className="students-table">
         <thead>
           <tr>
             <th>Nom</th>
             <th>Classe</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {students.map((eleve) => (
             <tr key={eleve.id}>
-              <td>{eleve.nom}</td>
-              <td>{eleve.classe}</td>
-              <td>
-                <button onClick={() => handleEdit(eleve.id)}>✏️ Modifier</button>
-                <button onClick={() => handleDelete(eleve.id)}>🗑️ Supprimer</button>
-              </td>
+              {editingId === eleve.id ? (
+                <>
+                  <td>
+                    <input
+                      value={editNom}
+                      onChange={(e) => setEditNom(e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      value={editClasse}
+                      onChange={(e) => setEditClasse(e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <button onClick={handleSaveEdit}>Enregistrer</button>
+                    <button onClick={handleCancelEdit}>Annuler</button>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>{eleve.nom}</td>
+                  <td>{eleve.classe}</td>
+                  <td>
+                    <button onClick={() => handleEdit(eleve.id)}>Modifier</button>
+                    <button onClick={() => handleDelete(eleve.id)}>Supprimer</button>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

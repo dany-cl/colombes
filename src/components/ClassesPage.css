@@ -1,30 +1,35 @@
-.teachers-page {
+.classes-page {
   padding: 20px;
-  background-color: #fff;
+  background-color: #fffbfb;
   border-radius: 10px;
 }
 
-.teachers-form {
-  margin-bottom: 20px;
+.classes-page h2 {
+  margin-bottom: 1rem;
+  color: #201e1e;
 }
 
-.teachers-table {
+.classes-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.teachers-table th,
-.teachers-table td {
+.classes-table th,
+.classes-table td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
 }
 
-.teachers-table th {
+.classes-table th {
   background-color: #f2f2f2;
 }
 
-.teachers-table button {
+.classes-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.classes-table button {
   margin-right: 5px;
   padding: 5px 8px;
   cursor: pointer;
@@ -53,4 +58,4 @@
 
 .add-form button:hover {
   opacity: 0.85;
-}
+}   

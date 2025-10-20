@@ -4,6 +4,8 @@
   import SearchBar from "./SearchBar";
   import StudentsPage from './StudentsPage';
   import TeachersPage from './TeachersPage';
+  import ClassesPage from './ClassesPage';
+  import MatieresPage from './MatieresPage';
 
 
   export default function NotesPage() {
@@ -277,19 +279,9 @@
 
           {activeSection === "professeurs" && <TeachersPage />}
 
-          {activeSection === "classes" && (
-            <div className="custom-section">
-              <h2>Liste des classes</h2>
-              <p>Afficher les effectifs, les niveaux, les emplois du temps…</p>
-            </div>
-          )}
+          {activeSection === "classes" && <ClassesPage />}
 
-          {activeSection === "matieres" && (
-            <div className="custom-section">
-              <h2>Liste des matières</h2>
-              <p>Afficher les matières par classe, les coefficients, etc.</p>
-            </div>
-          )}
+          {activeSection === "matieres" && <MatieresPage />}
 
           {activeSection === "emplois" && (
             <div className="custom-section">
