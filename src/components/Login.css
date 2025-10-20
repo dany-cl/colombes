@@ -193,10 +193,17 @@
   text-align: left;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background: url('/colombe.jpg') no-repeat center center fixed;
-  background-size: cover;
-  font-family: sans-serif;
+@media (max-width: 600px) {
+  .register-card {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  .input-icon {
+    margin-bottom: 0.5rem;
+  }
 }

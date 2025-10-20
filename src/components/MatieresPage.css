@@ -1,0 +1,61 @@
+.matieres-page {
+  padding: 20px;
+  background-color: #fffbfb;
+  border-radius: 10px;
+}
+
+.matieres-page h2 {
+  margin-bottom: 1rem;
+  color: #201e1e;
+}
+
+.matieres-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matieres-table th,
+.matieres-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.matieres-table th {
+  background-color: #f2f2f2;
+}
+
+.matieres-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.matieres-table button {
+  margin-right: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.add-form {
+  margin-bottom: 20px;
+}
+
+.add-form input {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.add-form button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.add-form button:hover {
+  opacity: 0.85;
+}
