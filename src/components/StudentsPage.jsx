@@ -8,10 +8,16 @@ export default function StudentsPage() {
 
   const [newNom, setNewNom] = useState("");
   const [newClasse, setNewClasse] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
   const [editNom, setEditNom] = useState("");
   const [editClasse, setEditClasse] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filtreClasse, setFiltreClasse] = useState("");
+
+  const classesDisponibles = ["1ère", "2nde", "3ème"];
 
   function handleAdd() {
     if (!newNom.trim() || !newClasse.trim()) return;
@@ -23,6 +29,7 @@ export default function StudentsPage() {
     setStudents(prev => [...prev, newEleve]);
     setNewNom("");
     setNewClasse("");
+    setFormVisible(false);
   }
 
   function handleEdit(id) {
@@ -61,35 +68,88 @@ export default function StudentsPage() {
     }
   }
 
+  const studentsFiltres = students.filter(e =>
+    e.nom.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    (filtreClasse === "" || e.classe === filtreClasse)
+  );
+
   return (
     <div className="students-page">
       <h2>Liste des élèves</h2>
 
-      <div className="add-form">
+      <div className="students-filters">
         <input
           type="text"
-          placeholder="Nom de l'élève"
-          value={newNom}
-          onChange={(e) => setNewNom(e.target.value)}
+          className="recherche-eleve"
+          placeholder="🔍 Rechercher un élève..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Classe"
-          value={newClasse}
-          onChange={(e) => setNewClasse(e.target.value)}
-        />
-        <button onClick={handleAdd}>Ajouter</button>
+        <select
+          value={filtreClasse}
+          onChange={(e) => setFiltreClasse(e.target.value)}
+        >
+          <option value="">Toutes les classes</option>
+          {classesDisponibles.map((classe, i) => (
+            <option key={i} value={classe}>{classe}</option>
+          ))}
+        </select>
       </div>
+
+      <button onClick={() => setFormVisible(true)} className="btn-ajouter-eleve">
+        Ajouter un élève
+      </button>
+
+      {formVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Ajouter un élève</h3>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Nom de l'élève"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+            />
+            <select
+              value={newClasse}
+              onChange={(e) => setNewClasse(e.target.value)}
+            >
+              <option value="">Sélectionner une classe</option>
+              {classesDisponibles.map((classe, i) => (
+                <option key={i} value={classe}>{classe}</option>
+              ))}
+            </select>
+
+            {(!newNom.trim() || !newClasse.trim()) && (
+              <p className="modal-warning">Veuillez remplir tous les champs.</p>
+            )}
+
+            <div className="modal-buttons">
+              <button
+                onClick={handleAdd}
+                disabled={!newNom.trim() || !newClasse.trim()}
+              >
+                Valider
+              </button>
+              <button onClick={() => setFormVisible(false)}>Annuler</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <table className="students-table">
         <thead>
           <tr>
             <th>Nom</th>
             <th>Classe</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {students.map((eleve) => (
+          {studentsFiltres.map((eleve) => (
             <tr key={eleve.id}>
               {editingId === eleve.id ? (
                 <>

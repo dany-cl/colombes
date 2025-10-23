@@ -3,78 +3,68 @@ import './MatieresPage.css';
 
 export default function MatieresPage() {
   const [matieres, setMatieres] = useState([
-    { id: 1, classe: "1ère", nom: "Maths", coefficient: 4, professeur: "Rasoa" },
+    { id: 1, nom: "Maths", coefficient: 4, professeur: "Rachid Jean" },
   ]);
 
-  const [newClasse, setNewClasse] = useState("");
   const [newNom, setNewNom] = useState("");
-  const [newCoefficient, setNewCoefficient] = useState("");
-  const [newProfesseur, setNewProfesseur] = useState("");
+  const [newCoef, setNewCoef] = useState("");
+  const [newProf, setNewProf] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
-  const [editClasse, setEditClasse] = useState("");
   const [editNom, setEditNom] = useState("");
-  const [editCoefficient, setEditCoefficient] = useState("");
-  const [editProfesseur, setEditProfesseur] = useState("");
+  const [editCoef, setEditCoef] = useState("");
+  const [editProf, setEditProf] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   function handleAdd() {
-    if (!newClasse.trim() || !newNom.trim() || !newCoefficient.trim() || !newProfesseur.trim()) return;
+    if (!newNom.trim() || !newCoef.trim() || !newProf.trim()) return;
     const nouvelleMatiere = {
       id: Date.now(),
-      classe: newClasse,
       nom: newNom,
-      coefficient: parseInt(newCoefficient),
-      professeur: newProfesseur,
+      coefficient: parseInt(newCoef),
+      professeur: newProf,
     };
     setMatieres(prev => [...prev, nouvelleMatiere]);
-    setNewClasse("");
     setNewNom("");
-    setNewCoefficient("");
-    setNewProfesseur("");
+    setNewCoef("");
+    setNewProf("");
+    setFormVisible(false);
   }
 
   function handleEdit(id) {
-    const m = matieres.find(x => x.id === id);
+    const m = matieres.find(m => m.id === id);
     if (!m) return;
     setEditingId(id);
-    setEditClasse(m.classe);
     setEditNom(m.nom);
-    setEditCoefficient(m.coefficient);
-    setEditProfesseur(m.professeur);
+    setEditCoef(m.coefficient);
+    setEditProf(m.professeur);
   }
 
   function handleSaveEdit() {
     setMatieres(prev =>
       prev.map(m =>
         m.id === editingId
-          ? {
-              ...m,
-              classe: editClasse,
-              nom: editNom,
-              coefficient: parseInt(editCoefficient),
-              professeur: editProfesseur,
-            }
+          ? { ...m, nom: editNom, coefficient: parseInt(editCoef), professeur: editProf }
           : m
       )
     );
     setEditingId(null);
-    setEditClasse("");
     setEditNom("");
-    setEditCoefficient("");
-    setEditProfesseur("");
+    setEditCoef("");
+    setEditProf("");
   }
 
   function handleCancelEdit() {
     setEditingId(null);
-    setEditClasse("");
     setEditNom("");
-    setEditCoefficient("");
-    setEditProfesseur("");
+    setEditCoef("");
+    setEditProf("");
   }
 
   function handleDelete(id) {
-    const confirm = window.confirm("Supprimer cette matière ?");
-    if (confirm) {
+    if (window.confirm("Supprimer cette matière ?")) {
       setMatieres(prev => prev.filter(m => m.id !== id));
       if (editingId === id) {
         handleCancelEdit();
@@ -82,58 +72,85 @@ export default function MatieresPage() {
     }
   }
 
+  const matieresFiltres = matieres.filter(m =>
+    m.nom.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="matieres-page">
       <h2>Liste des matières</h2>
 
-      <div className="add-form">
+      <div className="matieres-filters">
         <input
           type="text"
-          placeholder="Classe"
-          value={newClasse}
-          onChange={(e) => setNewClasse(e.target.value)}
+          className="recherche-matiere"
+          placeholder="🔍 Rechercher une matière..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Nom de la matière"
-          value={newNom}
-          onChange={(e) => setNewNom(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Coefficient"
-          value={newCoefficient}
-          onChange={(e) => setNewCoefficient(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Professeur"
-          value={newProfesseur}
-          onChange={(e) => setNewProfesseur(e.target.value)}
-        />
-        <button onClick={handleAdd}>Ajouter</button>
       </div>
+
+      <button onClick={() => setFormVisible(true)} className="btn-ajouter-matiere">
+        Ajouter une matière
+      </button>
+
+      {formVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Ajouter une matière</h3>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Nom de la matière"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Coefficient"
+              value={newCoef}
+              onChange={(e) => setNewCoef(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Nom du professeur"
+              value={newProf}
+              onChange={(e) => setNewProf(e.target.value)}
+            />
+
+            {(!newNom.trim() || !newCoef.trim() || !newProf.trim()) && (
+              <p className="modal-warning">Veuillez remplir tous les champs.</p>
+            )}
+
+            <div className="modal-buttons">
+              <button
+                onClick={handleAdd}
+                disabled={!newNom.trim() || !newCoef.trim() || !newProf.trim()}
+              >
+                Valider
+              </button>
+              <button onClick={() => setFormVisible(false)}>Annuler</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <table className="matieres-table">
         <thead>
           <tr>
-            <th>Classe</th>
-            <th>Matière</th>
+            <th>Nom</th>
             <th>Coefficient</th>
             <th>Professeur</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {matieres.map((m) => (
+          {matieresFiltres.map((m) => (
             <tr key={m.id}>
               {editingId === m.id ? (
                 <>
-                  <td>
-                    <input
-                      value={editClasse}
-                      onChange={(e) => setEditClasse(e.target.value)}
-                    />
-                  </td>
                   <td>
                     <input
                       value={editNom}
@@ -143,14 +160,14 @@ export default function MatieresPage() {
                   <td>
                     <input
                       type="number"
-                      value={editCoefficient}
-                      onChange={(e) => setEditCoefficient(e.target.value)}
+                      value={editCoef}
+                      onChange={(e) => setEditCoef(e.target.value)}
                     />
                   </td>
                   <td>
                     <input
-                      value={editProfesseur}
-                      onChange={(e) => setEditProfesseur(e.target.value)}
+                      value={editProf}
+                      onChange={(e) => setEditProf(e.target.value)}
                     />
                   </td>
                   <td>
@@ -160,7 +177,6 @@ export default function MatieresPage() {
                 </>
               ) : (
                 <>
-                  <td>{m.classe}</td>
                   <td>{m.nom}</td>
                   <td>{m.coefficient}</td>
                   <td>{m.professeur}</td>

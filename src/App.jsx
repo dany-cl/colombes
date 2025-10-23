@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotesPage from './components/NotesPage';
+import StatsNotes from './components/StatsNotes';
 
 export default function App() {
   return (
@@ -25,7 +26,7 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Home />
-              </ProtectedRoute> 
+              </ProtectedRoute>
             }
           />
         <Route
@@ -36,6 +37,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/stats-notes"
+          element={
+            <ProtectedRoute>
+              <StatsNotes />
+            </ProtectedRoute>
+  }
+/>
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </div>

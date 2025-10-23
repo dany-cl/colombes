@@ -36,3 +36,24 @@
   cursor: pointer;
   border-radius: 4px;
 }
+
+.sidebar-submenu {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-notes-button {
+  position: relative;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: rgb(9, 8, 8);
+  pointer-events: none;
+}

@@ -18,12 +18,6 @@ export default function Home() {
           {currentView === "matieres" && "MATIÈRES"}
           {currentView === "notes" && <NotesPage />}
         </h1>
-
-        {currentView === "dashboard" && (
-          <div style={{ textAlign: 'center', fontSize: '1.25rem' }}>
-            🎉 Bienvenue sur votre page Home !
-          </div>
-        )}
         {currentView === "eleves" && <StudentsPage />}
       </main>
     </div>

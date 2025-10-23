@@ -8,10 +8,13 @@ export default function ClassesPage() {
 
   const [newNom, setNewNom] = useState("");
   const [newEffectif, setNewEffectif] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
   const [editNom, setEditNom] = useState("");
   const [editEffectif, setEditEffectif] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   function handleAdd() {
     if (!newNom.trim() || !newEffectif.trim()) return;
@@ -23,6 +26,7 @@ export default function ClassesPage() {
     setClasses(prev => [...prev, newClasse]);
     setNewNom("");
     setNewEffectif("");
+    setFormVisible(false);
   }
 
   function handleEdit(id) {
@@ -60,35 +64,75 @@ export default function ClassesPage() {
     }
   }
 
+  const classesFiltres = classes.filter(c =>
+    c.nom.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="classes-page">
       <h2>Liste des classes</h2>
 
-      <div className="add-form">
+      <div className="classes-filters">
         <input
           type="text"
-          placeholder="Nom de la classe"
-          value={newNom}
-          onChange={(e) => setNewNom(e.target.value)}
+          className="recherche-classe"
+          placeholder="🔍 Rechercher une classe..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <input
-          type="number"
-          placeholder="Effectif"
-          value={newEffectif}
-          onChange={(e) => setNewEffectif(e.target.value)}
-        />
-        <button onClick={handleAdd}>Ajouter</button>
       </div>
+
+      <button onClick={() => setFormVisible(true)} className="btn-ajouter-classe">
+        Ajouter une classe
+      </button>
+
+      {formVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Ajouter une classe</h3>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Nom de la classe"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Effectif"
+              value={newEffectif}
+              onChange={(e) => setNewEffectif(e.target.value)}
+            />
+
+            {(!newNom.trim() || !newEffectif.trim()) && (
+              <p className="modal-warning">Veuillez remplir tous les champs.</p>
+            )}
+
+            <div className="modal-buttons">
+              <button
+                onClick={handleAdd}
+                disabled={!newNom.trim() || !newEffectif.trim()}
+              >
+                Valider
+              </button>
+              <button onClick={() => setFormVisible(false)}>Annuler</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <table className="classes-table">
         <thead>
           <tr>
             <th>Nom</th>
             <th>Effectif</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {classes.map((classe) => (
+          {classesFiltres.map((classe) => (
             <tr key={classe.id}>
               {editingId === classe.id ? (
                 <>
@@ -126,4 +170,4 @@ export default function ClassesPage() {
       </table>
     </div>
   );
-}
+} 

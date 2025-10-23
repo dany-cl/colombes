@@ -3,15 +3,21 @@ import './TeachersPage.css';
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState([
-    { id: 1, nom: "Rasoa", matiere: "Maths" },
+    { id: 1, nom: "Rachid Jean", matiere: "Maths" },
   ]);
 
   const [newNom, setNewNom] = useState("");
   const [newMatiere, setNewMatiere] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
   const [editNom, setEditNom] = useState("");
   const [editMatiere, setEditMatiere] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filtreMatiere, setFiltreMatiere] = useState("");
+
+  const matieresDisponibles = ["Maths", "Physique", "SVT", "Histoire", "Français"];
 
   function handleAdd() {
     if (!newNom.trim() || !newMatiere.trim()) return;
@@ -23,10 +29,11 @@ export default function TeachersPage() {
     setTeachers(prev => [...prev, newProf]);
     setNewNom("");
     setNewMatiere("");
+    setFormVisible(false);
   }
 
   function handleEdit(id) {
-    const prof = teachers.find(p => p.id === id);
+    const prof = teachers.find(t => t.id === id);
     if (!prof) return;
     setEditingId(id);
     setEditNom(prof.nom);
@@ -35,8 +42,8 @@ export default function TeachersPage() {
 
   function handleSaveEdit() {
     setTeachers(prev =>
-      prev.map(p =>
-        p.id === editingId ? { ...p, nom: editNom, matiere: editMatiere } : p
+      prev.map(t =>
+        t.id === editingId ? { ...t, nom: editNom, matiere: editMatiere } : t
       )
     );
     setEditingId(null);
@@ -51,41 +58,98 @@ export default function TeachersPage() {
   }
 
   function handleDelete(id) {
-    const confirm = window.confirm("Supprimer ce professeur ?");
-    if (confirm) {
-      setTeachers(prev => prev.filter(p => p.id !== id));
+    if (window.confirm("Supprimer ce professeur ?")) {
+      setTeachers(prev => prev.filter(t => t.id !== id));
+      if (editingId === id) {
+        setEditingId(null);
+        setEditNom("");
+        setEditMatiere("");
+      }
     }
   }
+
+  const teachersFiltres = teachers.filter(t =>
+    t.nom.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    (filtreMatiere === "" || t.matiere === filtreMatiere)
+  );
 
   return (
     <div className="teachers-page">
       <h2>Liste des professeurs</h2>
 
-      <div className="add-form">
+      <div className="teachers-filters">
         <input
           type="text"
-          placeholder="Nom du professeur"
-          value={newNom}
-          onChange={(e) => setNewNom(e.target.value)}
+          className="recherche-prof"
+          placeholder="🔍 Rechercher un professeur..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Matière"
-          value={newMatiere}
-          onChange={(e) => setNewMatiere(e.target.value)}
-        />
-        <button onClick={handleAdd}>Ajouter</button>
+        <select
+          value={filtreMatiere}
+          onChange={(e) => setFiltreMatiere(e.target.value)}
+        >
+          <option value="">Toutes les matières</option>
+          {matieresDisponibles.map((m, i) => (
+            <option key={i} value={m}>{m}</option>
+          ))}
+        </select>
       </div>
+
+      <button onClick={() => setFormVisible(true)} className="btn-ajouter-prof">
+        Ajouter un professeur
+      </button>
+
+      {formVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Ajouter un professeur</h3>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Nom du professeur"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+            />
+            <select
+              value={newMatiere}
+              onChange={(e) => setNewMatiere(e.target.value)}
+            >
+              <option value="">Sélectionner une matière</option>
+              {matieresDisponibles.map((m, i) => (
+                <option key={i} value={m}>{m}</option>
+              ))}
+            </select>
+
+            {(!newNom.trim() || !newMatiere.trim()) && (
+              <p className="modal-warning">Veuillez remplir tous les champs.</p>
+            )}
+
+            <div className="modal-buttons">
+              <button
+                onClick={handleAdd}
+                disabled={!newNom.trim() || !newMatiere.trim()}
+              >
+                Valider
+              </button>
+              <button onClick={() => setFormVisible(false)}>Annuler</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <table className="teachers-table">
         <thead>
           <tr>
             <th>Nom</th>
             <th>Matière</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {teachers.map((prof) => (
+          {teachersFiltres.map((prof) => (
             <tr key={prof.id}>
               {editingId === prof.id ? (
                 <>
